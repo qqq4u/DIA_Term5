@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Парковочное место: {{ .Number }}</title>
+    <link rel="stylesheet" href="/styles/card.css">
+</head>
+<body>
+<div class="parking-card">
+    <h2 class="parking-number">Number: {{ .Number }}</h2>
+    <p class="parking-type">Type: {{ .Type.Name }}</p>
+    <p class="parking-floor">Floor: {{ .Floor }}</p>
+</div>
+</body>
+</html>
