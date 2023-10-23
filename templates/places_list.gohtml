@@ -1,28 +1,73 @@
-<!DOCTYPE html>
-<html lang="ru">
+{{/*<!DOCTYPE html>*/}}
+{{/*<html lang="ru">*/}}
+{{/*<head>*/}}
+{{/*    <meta charset="UTF-8">*/}}
+{{/*    <title>Парковочное место: {{.Number}}</title>*/}}
+{{/*    <link rel="stylesheet" href="/styles/card.css">*/}}
+{{/*    <link rel="stylesheet" href="/styles/search.css">*/}}
+{{/*    <link rel="stylesheet" href="/styles/main.css">*/}}
+{{/*</head>*/}}
+{{/*<body>*/}}
+
+{{/*<div class="search">*/}}
+{{/*    <form action="/home" method="get">*/}}
+{{/*        <input type="search" name="placeNumber" placeholder="Введите номер парковочного места">*/}}
+{{/*        <button type="submit">Поиск</button>*/}}
+{{/*    </form>*/}}
+{{/*</div>*/}}
+
+{{/*{{range .data}}*/}}
+{{/*    <a href="/parking/{{ .ID }}" class="parking-card">*/}}
+{{/*        <h2 class="parking-number">Number: {{ .Number }}</h2>*/}}
+{{/*        <p class="parking-type">Type: {{ .Type.Name }}</p>*/}}
+{{/*        <p class="parking-floor">Floor: {{ .Floor }}</p>*/}}
+{{/*    </a>*/}}
+{{/*{{end}}*/}}
+
+{{/*</body>*/}}
+{{/*</html>*/}}
+
+<!doctype html>
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <title>Парковочное место: {{.Number}}</title>
-    <link rel="stylesheet" href="/styles/card.css">
-    <link rel="stylesheet" href="/styles/search.css">
-    <link rel="stylesheet" href="/styles/main.css">
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Парковки МГТУ им Н.Э. Баумана</title>
+    <link rel="stylesheet" href="/styles/index.css" type="text/css"/>
 </head>
 <body>
 
-<div class="search">
-    <form action="/home" method="get">
-        <input type="search" name="placeNumber" placeholder="Введите номер парковочного места">
-        <button type="submit">Поиск</button>
+<div>
+    <h3>Парковки МГТУ</h3>
+</div>
+
+<div class="row"></div>
+
+<div class="form__container">
+    <form class="form" action="/home" method="get">
+        <input class="input__text" type="text" name="parkingName" value="{{ .QueryParam }}" placeholder="Название парковки">
+        <input class="input__btn" type="submit" value="Найти">
     </form>
 </div>
 
-{{range .data}}
-    <a href="/parking/{{ .ID }}" class="parking-card">
-        <h2 class="parking-number">Number: {{ .Number }}</h2>
-        <p class="parking-type">Type: {{ .Type.Name }}</p>
-        <p class="parking-floor">Floor: {{ .Floor }}</p>
-    </a>
-{{end}}
+<div class="card__container">
+    <div class="card__list">
+        {{range .data}}
+            <a class="href" href="/parking/{{ .ID }}">
+                <div class="card" style="background-image: url({{ .Photo }})">
+                    <div class="card__description--container">
+                        <div class="card__description--bgnd"></div>
+                        <div class="card__description">
+                            <h2>{{ .Name }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {{end}}
+    </div>
+</div>
 
 </body>
 </html>
+

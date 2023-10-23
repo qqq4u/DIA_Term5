@@ -12,12 +12,12 @@ func Render(url string, c *gin.Context) {
 		"templates/places_list.gohtml",
 	}
 
-	var data []models.ParkingPlace
-	if c.Query("placeNumber") != "" {
-		data = repository.GetItemByNumber(repository.Places, c.Query("placeNumber"))
+	var data []models.Parking
+	if c.Query("parkingName") != "" {
+		data = repository.GetParkingByName(repository.Parkings, c.Query("parkingName"))
 	} else {
-		data = repository.Places
+		data = repository.Parkings
 	}
 
-	render.RenderTmpl(url, files, gin.H{"data": data, "QueryParam": c.Query("starName")}, c)
+	render.RenderTmpl(url, files, gin.H{"data": data, "QueryParam": c.Query("parkingName")}, c)
 }

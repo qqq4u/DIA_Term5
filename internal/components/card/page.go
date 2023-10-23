@@ -17,9 +17,9 @@ func Render(url string, c *gin.Context) {
 	if err != nil {
 		log.Println(err)
 	}
-	list := repository.Places
+	list := repository.Parkings
 
-	item := repository.GetItemById(list, uint(id))
+	item := repository.GetParkingById(list, uint(id))
 
 	render.RenderTmpl(url, files, item, c)
 }
