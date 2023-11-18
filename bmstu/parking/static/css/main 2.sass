@@ -1,0 +1,113 @@
+"type": "float",
+									"length": 0
+								},
+								{
+									"_type": "ERDColumn",
+									"_id": "AAAAAAGLDwKnepNaC8M=",
+									"_parent": {
+										"$ref": "AAAAAAGKdtaHzcbSE9E="
+									},
+									"name": "Средняя энергия нейтронов",
+									"type": "int",
+									"length": 0
+								},
+								{
+									"_type": "ERDColumn",
+									"_id": "AAAAAAGLDwLpDpNiQqc=",
+									"_parent": {
+										"$ref": "AAAAAAGKdtaHzcbSE9E="
+									},
+									"name": "Продолжительность микрокампании",
+									"type": "int",
+									"length": 0
+								},
+								{
+									"_type": "ERDColumn",
+									"_id": "AAAAAAGLDwMVkpNqMek=",
+									"_parent": {
+										"$ref": "AAAAAAGKdtaHzcbSE9E="
+									},
+									"name": "Время между микрокомпаниями",
+									"type": "int",
+									"length": 0
+								},
+								{
+									"_type": "ERDColumn",
+									"_id": "AAAAAAGLQi4BvnhYDg0=",
+									"_parent": {
+										"$ref": "AAAAAAGKdtaHzcbSE9E="
+									},
+									"name": "Фото",
+									"type": "image",
+									"length": 0
+								},
+								{
+									"_type": "ERDColumn",
+									"_id": "AAAAAAGLQoV86uTYZ6k=",
+									"_parent": {
+										"$ref": "AAAAAAGKdtaHzcbSE9E="
+									},
+									"name": "Кол-во мест",
+									"type": "int",
+									"length": 0
+								},
+								{
+									"_type": "ERDColumn",
+									"_id": "AAAAAAGLQoWYn+Tfehc=",
+									"_parent": {
+										"$ref": "AAAAAAGKdtaHzcbSE9E="
+									},
+									"name": "Год смерти",
+									"type": "int",
+									"length": 0
+								}
+							]
+						},
+						{
+							"_type": "ERDEntity",
+							"_id": "AAAAAAGKdtkyN8b3vu0=",
+							"_parent": {
+								"$ref": "AAAAAAGKXOxMipCf4vs="
+							},
+							"name": "Абонементы",
+							"ownedElements": [
+								{
+									"_type": "ERDRelationship",
+									"_id": "AAAAAAGKduA7asevF5Y=",
+									"_parent": {
+										"$ref": "AAAAAAGKdtkyN8b3vu0="
+									},
+									"end1": {
+										"_type": "ERDRelationshipEnd",
+										"_id": "AAAAAAGKduA7asew1Tk=",
+										"_parent": {
+											"$ref": "AAAAAAGKduA7asevF5Y="
+										},
+										"reference": {
+											"$ref": "AAAAAAGKdtkyN8b3vu0="
+										}
+									},
+									"end2": {
+										"_type": "ERDRelationshipEnd",
+										"_id": "AAAAAAGKduA7asexgto=",
+										"_parent": {
+											"$ref": "AAAAAAGKduA7asevF5Y="
+										},
+										"reference": {
+											"$ref": "AAAAAAGKdt8NJ8dBr+A="
+										},
+										"cardinality": "0..*"
+									}
+								}
+							],
+							"tags": [
+								{
+									"_type": "Tag",
+									"_id": "AAAAAAGKduZ+IshOrc8=",
+									"_parent": {
+										"$ref": "AAAAAAGKdtkyN8b3vu0="
+									},
+									"name": "Tag1",
+									"kind": "string"
+								}
+							]
