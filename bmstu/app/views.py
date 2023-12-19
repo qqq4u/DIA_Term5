@@ -1,5 +1,7 @@
 from datetime import datetime
 
+import requests
+
 from django.contrib.auth import authenticate
 from django.http import HttpResponse
 from drf_yasg.utils import swagger_auto_schema
@@ -165,7 +167,8 @@ def search_tickets(request):
     date_start = int(request.GET.get("date_start", -1))
     date_end = int(request.GET.get("date_end", -1))
 
-    tickets = Ticket.objects.exclude(status__in=[1, 5]) if user.is_moderator else Ticket.objects.filter(owner_id=user.pk)
+    tickets = Ticket.objects.exclude(status__in=[1, 5]) if user.is_moderator else Ticket.objects.filter(
+        owner_id=user.pk)
 
     if status_id != -1:
         tickets = tickets.filter(status=status_id)
@@ -209,6 +212,28 @@ def update_ticket(request, ticket_id):
 
 
 @api_view(["PUT"])
+@permission_classes([IsRemoteWebService])
+def update_ticket_price(request, ticket_id):
+    if not Ticket.objects.filter(pk=ticket_id).exists():
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    ticket = Ticket.objects.get(pk=ticket_id)
+
+    price = request.data.get("price", "")
+    if not ticket:
+        ticket.price = 0
+        ticket.status = 3
+        ticket.save()
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    ticket.price = price
+    ticket.price_status = 4
+    ticket.save()
+
+    return Response(status=status.HTTP_200_OK)
+
+
+@api_view(["PUT"])
 @permission_classes([IsAuthenticated])
 def update_status_user(request, ticket_id):
     if not Ticket.objects.filter(pk=ticket_id).exists():
@@ -219,6 +244,8 @@ def update_status_user(request, ticket_id):
     ticket.status = 2
     ticket.date_of_formation = timezone.now()
     ticket.save()
+
+    calculate_ticket_price(ticket.pk)
 
     serializer = TicketSerializer(ticket, many=False)
 
@@ -374,3 +401,12 @@ def logout(request):
     response.delete_cookie('access_token')
 
     return response
+
+
+def calculate_ticket_price(ticket_id):
+    data = {
+        "ticket_id": ticket_id,
+        "access_token": settings.REMOTE_WEB_SERVICE_AUTH_TOKEN,
+    }
+
+    requests.post("http://127.0.0.1:8080/calc_price/", json=data, timeout=3)

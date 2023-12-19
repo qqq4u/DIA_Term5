@@ -1,4 +1,5 @@
 from django.core.cache import cache
+from django.conf import settings
 from rest_framework.permissions import BasePermission
 
 from .jwt_helper import get_jwt_payload, get_access_token
@@ -49,3 +50,9 @@ class IsModerator(BasePermission):
             return False
 
         return user.is_moderator
+
+
+class IsRemoteWebService(BasePermission):
+    def has_permission(self, request, view):
+        access_token = request.data.get("access_token", "")
+        return access_token == settings.REMOTE_WEB_SERVICE_AUTH_TOKEN

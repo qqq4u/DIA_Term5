@@ -62,6 +62,9 @@ class Migration(migrations.Migration):
                 ('moderator', models.ForeignKey(null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='moderator', to=settings.AUTH_USER_MODEL, verbose_name='Модератор')),
                 ('owner', models.ForeignKey(null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='owner', to=settings.AUTH_USER_MODEL, verbose_name='Создатель')),
                 ('parkings', models.ManyToManyField(null=True, to='app.parking', verbose_name='Парковки')),
+                ('price', models.IntegerField(blank=True, default=0, verbose_name='Стоимость')),
+                ('price_status', models.IntegerField(default=1, verbose_name='Статус стоимости')),
+
             ],
             options={
                 'verbose_name': 'Абонемент',
