@@ -4,7 +4,6 @@ import requests
 
 import random
 
-
 from django.contrib.auth import authenticate
 from django.http import HttpResponse
 from drf_yasg.utils import swagger_auto_schema
@@ -183,7 +182,7 @@ def search_tickets(request):
     if date_end != -1:
         tickets = tickets.filter(date_of_formation__lt=datetime.fromtimestamp(date_end).date())
 
-    serializer = TicketSerializer(tickets, many=True)
+    serializer = TicketSerializer(tickets, many=True, context={'exclude_fields': ['parkings']})
 
     return Response(serializer.data)
 

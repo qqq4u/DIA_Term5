@@ -24,6 +24,13 @@ class TicketSerializer(serializers.ModelSerializer):
         model = Ticket
         fields = "__all__"
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        exclude_fields = self.context.get('exclude_fields', [])
+        for field in exclude_fields:
+            representation.pop(field, None)
+        return representation
+
 
 class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
