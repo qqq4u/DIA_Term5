@@ -72,7 +72,7 @@ class Ticket(models.Model):
         (5, 'Удалён'),
     )
 
-    PRICE_STATUS_CHOICES = (
+    TIME_ENTRY_STATUS_CHOICES = (
         (1, "Не вычислена"),
         (2, "Вычисляется"),
         (3, "Не удалось вычислить"),
@@ -88,8 +88,8 @@ class Ticket(models.Model):
     date_of_formation = models.DateTimeField(verbose_name="Дата формирования", blank=True, null=True)
     date_complete = models.DateTimeField(verbose_name="Дата завершения", blank=True, null=True)
 
-    price = models.CharField(default=0, verbose_name="Стоимость", blank=True)
-    price_status = models.IntegerField(default=1, verbose_name="Статус стоимости")
+    time_entry = models.CharField(default=0, verbose_name="Время въезда", blank=True)
+    time_entry_status = models.IntegerField(default=1, verbose_name="Статус времени въезда")
 
     owner = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, verbose_name="Создатель", related_name='owner', null=True)
     moderator = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, verbose_name="Модератор", related_name='moderator', blank=True, null=True)

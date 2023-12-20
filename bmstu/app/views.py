@@ -2,12 +2,16 @@ from datetime import datetime
 
 import requests
 
+import random
+
+
 from django.contrib.auth import authenticate
 from django.http import HttpResponse
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from django.core.cache import cache
 
 from .jwt_helper import *
 from .permissions import *
@@ -23,7 +27,7 @@ def get_draft_ticket(request):
     payload = get_jwt_payload(token)
     user_id = payload["user_id"]
 
-    ticket = Ticket.objects.filter(user_id=user_id).filter(status=1).first()
+    ticket = Ticket.objects.filter(owner=user_id).filter(status=1).first()
 
     if ticket is None:
         return None
@@ -213,21 +217,21 @@ def update_ticket(request, ticket_id):
 
 @api_view(["PUT"])
 @permission_classes([IsRemoteWebService])
-def update_ticket_price(request, ticket_id):
+def update_ticket_time_entry(request, ticket_id):
     if not Ticket.objects.filter(pk=ticket_id).exists():
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     ticket = Ticket.objects.get(pk=ticket_id)
 
-    price = request.data.get("price", "")
+    time_entry = request.data.get("time", "")
     if not ticket:
-        ticket.price = 0
+        ticket.time_entry = 0
         ticket.status = 3
         ticket.save()
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    ticket.price = price
-    ticket.price_status = 4
+    ticket.time_entry = time_entry
+    ticket.time_entry_status = 4
     ticket.save()
 
     return Response(status=status.HTTP_200_OK)
@@ -242,10 +246,10 @@ def update_status_user(request, ticket_id):
     ticket = Ticket.objects.get(pk=ticket_id)
 
     ticket.status = 2
-    ticket.date_of_formation = timezone.now()
+    ticket.date_of_formation = datetime.now()
     ticket.save()
 
-    calculate_ticket_price(ticket.pk)
+    calculate_ticket_time_entry(ticket.pk)
 
     serializer = TicketSerializer(ticket, many=False)
 
@@ -260,15 +264,17 @@ def update_status_admin(request, ticket_id):
 
     request_status = request.data["status"]
 
-    if request_status not in [3, 4]:
+    if request_status not in ["3", "4"]:
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
     ticket = Ticket.objects.get(pk=ticket_id)
 
-    if ticket.status != 2:
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    token = get_access_token(request)
+    payload = get_jwt_payload(token)
+    user = CustomUser.objects.get(pk=payload["user_id"])
 
     ticket.status = request_status
+    ticket.moderator = user
     ticket.date_complete = timezone.now()
     ticket.save()
 
@@ -403,10 +409,9 @@ def logout(request):
     return response
 
 
-def calculate_ticket_price(ticket_id):
+def calculate_ticket_time_entry(ticket_id):
     data = {
         "ticket_id": ticket_id,
-        "access_token": settings.REMOTE_WEB_SERVICE_AUTH_TOKEN,
     }
 
-    requests.post("http://127.0.0.1:8080/calc_price/", json=data, timeout=3)
+    requests.post("http://127.0.0.1:8080/calc_time/", json=data, timeout=3)

@@ -16,7 +16,7 @@ urlpatterns = [
     path('api/tickets/search/', search_tickets),  # GET
     path('api/tickets/<int:ticket_id>/', get_ticket_by_id),  # GET
     path('api/tickets/<int:ticket_id>/update/', update_ticket),  # PUT
-    path('api/tickets/<int:ticket_id>/update_price/', update_ticket_price),  # PUT
+    path('api/tickets/<int:ticket_id>/update_time_entry/', update_ticket_time_entry),  # PUT
     path('api/tickets/<int:ticket_id>/update_status_user/', update_status_user),  # PUT
     path('api/tickets/<int:ticket_id>/update_status_admin/', update_status_admin),  # PUT
     path('api/tickets/<int:ticket_id>/delete/', delete_ticket),  # DELETE
