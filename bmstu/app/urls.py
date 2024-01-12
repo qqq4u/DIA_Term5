@@ -15,7 +15,6 @@ urlpatterns = [
     # Набор методов для заявок
     path('api/tickets/search/', search_tickets),  # GET
     path('api/tickets/<int:ticket_id>/', get_ticket_by_id),  # GET
-    path('api/tickets/<int:ticket_id>/update/', update_ticket),  # PUT
     path('api/tickets/<int:ticket_id>/update_time_entry/', update_ticket_entry_time),  # PUT
     path('api/tickets/<int:ticket_id>/update_status_user/', update_status_user),  # PUT
     path('api/tickets/<int:ticket_id>/update_status_admin/', update_status_admin),  # PUT

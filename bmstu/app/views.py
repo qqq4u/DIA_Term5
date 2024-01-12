@@ -187,23 +187,6 @@ def get_ticket_by_id(request, ticket_id):
     serializer = TicketSerializer(ticket, many=False)
 
     return Response(serializer.data)
-
-
-@api_view(["PUT"])
-@permission_classes([IsAuthenticated])
-def update_ticket(request, ticket_id):
-    if not Ticket.objects.filter(pk=ticket_id).exists():
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    ticket = Ticket.objects.get(pk=ticket_id)
-    serializer = TicketSerializer(ticket, data=request.data, many=False, partial=True)
-
-    if serializer.is_valid():
-        serializer.save()
-
-    return Response(serializer.data)
-
-
 @api_view(["PUT"])
 @permission_classes([IsRemoteService])
 def update_ticket_entry_time(request, ticket_id):
