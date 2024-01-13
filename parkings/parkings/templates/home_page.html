@@ -1,0 +1,77 @@
+{% extends 'base_page.html' %}
+
+{% load static %}
+
+{% block title %}
+    Парковки МГТУ
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="wrapper">
+
+        {% include 'components/navbar.html' %}
+
+        <div class="content-wrapper">
+
+            <div class="cards-wrapper">
+
+                <div class="top">
+
+                    <form class="search-bar" method="GET" action="/">
+
+                        {% csrf_token %}
+
+                        <input type="text" placeholder="Поиск" name="parkings" value="{{ search_query }}">
+
+                        <button type="submit">
+                          <i class="fa fa-search"></i>
+                        </button>
+
+                    </form>
+
+                </div>
+
+                <div class="bottom">
+
+                    {% for parking in parkings %}
+
+                        <a href="parking/{{parking.parking_id}}" class="card-link-wrapper">
+
+                            <div class="card">
+
+                                <img src="{% static 'images/' %}{{ parking.parking_id }}{{ '.jpg' }}">
+
+                                <div class="card-content">
+
+                                    <h3 class="title">{{ parking.parking_name }}</h3>
+
+                                    <span class="price">{{ parking.parking_places_count}}₽</span>
+
+                                </div>
+
+                                <div class="order-link">
+                                    <span>Подробнее</span>
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    {% endfor %}
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+{% endblock %}

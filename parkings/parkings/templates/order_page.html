@@ -1,0 +1,63 @@
+{% extends 'base_page.html' %}
+
+{% load static %}
+
+{% block title %}
+    Авиа магазин
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="wrapper">
+
+        {% include 'components/navbar.html' %}
+
+        <div class="content-wrapper">
+
+            <div class="parking-details-wrapper">
+
+                <a class="return-link" href="/">Назад</a>
+
+                <div class="top">
+
+                    <h1>{{ parking_name }}</h1>
+
+                </div>
+
+                <div class="bottom">
+
+                    <div class="left">
+
+                        <img src="{% static 'images/' %}{{ parking_id }}{{ '.jpg' }}">
+
+                    </div>
+
+                    <div class="right">
+
+                        <span class="description">Адрес: {{ parking_adress }}</span>
+
+                        <span class="price">Количество мест: {{ parking_places_count }}₽</span>
+
+
+                        <div class="buttons-container">
+
+                            <button class="order-button">Заказать<i class="fa fa-shopping-cart"></i></button>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+{% endblock %}
